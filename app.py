@@ -9,7 +9,8 @@ import os
 from werkzeug.utils import secure_filename
  
 app = Flask(__name__)
- 
+
+app.secret_key = "secret key"
 app.config['UPLOAD_FOLDER'] = 'C:\\Users\\cneil\\CS Projects\\HackKu_2025\\static\\uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
  
