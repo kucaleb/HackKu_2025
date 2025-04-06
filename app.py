@@ -10,9 +10,6 @@ from werkzeug.utils import secure_filename
  
 app = Flask(__name__)
  
-
- 
-app.secret_key = "secret key"
 app.config['UPLOAD_FOLDER'] = 'C:\\Users\\cneil\\CS Projects\\HackKu_2025\\static\\uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
  
@@ -46,6 +43,7 @@ def upload_image():
     else:
         flash('Allowed image types are - png, jpg, jpeg, gif')
         return redirect(request.url)
+    
 @app.route('/', methods=['GET'])
 def get_Gemini_Meals():
     prompt = "You are a chef doing meal prep for a healthy resteraunt. The images will containt coupons from a local store. Your job is to create three healthy main courses from some of the items in the coupons and return the meals in the following JSON format. [{meal: Meal Name, Ingredients: {Ingredient_Names: quantities}}, {meal: Meal Name, Ingredients : {Ingredient_Names : quantities}}, {meal : Meal Name, Ingredients : {Ingredient_Names: quantities}}]. The meals are only inspired from the items in the coupons, so please write out a full list of ingredients, even if the ingredients aren't in the coupons. RESPOND ONLY WITH THE JSON"
