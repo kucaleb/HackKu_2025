@@ -20,7 +20,37 @@
           {% endif %}
         {% endwith %}
     </p>
+    {% if meals %}
+    <div id="meals"></div>
+
+    <script>
+        const meals = {{ meals|tojson }};
     
+        const container = document.getElementById("meals");
+    
+        meals.forEach(meal => {
+            const mealName = meal['meal'];
+            const mealItems = meal['Ingredients'];
+
+            console.log(mealName);
+            console.log(mealItems);
+    
+            // Create and append meal name
+            const mealTitle = document.createElement("h3");
+            mealTitle.textContent = mealName;
+            container.appendChild(mealTitle);
+    
+            // Create a list for items
+            const ul = document.createElement("ul");
+            for (const item in mealItems) {
+                const li = document.createElement("li");
+                li.textContent = `${item}: ${mealItems[item]}`;
+                ul.appendChild(li);
+            }
+            container.appendChild(ul);
+        });
+    </script>
+    {% endif %}
     <form method="post" action="/" enctype="multipart/form-data">
         <dl>
             <p>
