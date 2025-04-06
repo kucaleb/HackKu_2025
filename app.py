@@ -40,20 +40,16 @@ def upload_image():
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         #print('upload_image filename: ' + filename)
         flash('Image successfully uploaded and displayed below')
-        meals = get_Gemini_Meals(r"static\uploads\\" + filename)
-        print(meals)
-        return render_template('index.html', meals=meals)
+        #meals = get_Gemini_Meals(r"static\uploads\\" + filename)
+        #print(meals)
+        return render_template('index.html')
     else:
         flash('Allowed image types are - png, jpg, jpeg, gif')
         return redirect(request.url)
- 
-@app.route('/display/<filename>')
-def display_image(filename):
-    #print('display_image filename: ' + filename)
-    return redirect(url_for('static', filename='uploads/' + filename), code=301)
- 
 
+@app.route('/', methods=['GET'])
 def get_Gemini_Meals(image_path):
+    #Loop through pics in uploads
     image = PIL.Image.open(image_path)
 
     client = genai.Client(api_key=os.environ.get('GEMINI_API_KEY'))
