@@ -1,7 +1,5 @@
 body {
     background: linear-gradient(135deg, #006bb6, #e4002b);
-    height: 100vh;
-    width:100vh;
     margin: 0;
     font-family: 'Arial', sans-serif;
     color: white;
@@ -10,18 +8,15 @@ body {
     
 }
 
-body {
-    font-size: 50%;
-    padding:7%;
-}
-
 h1 {
     padding:10px;
+    color:white;
     font-size: 120px;
 }
 
 h2 {
     padding:10px;
+    color:white;
     font-size:50px;
 }
 
@@ -34,6 +29,14 @@ form {
     width:90%;
     max-width:600px;
     align-content: center;
+}
+
+h3 {
+    font-size:90px;
+}
+
+li {
+    font-size: 40px;
 }
 
 input[type="file"] {
