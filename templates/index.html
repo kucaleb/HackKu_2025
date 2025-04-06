@@ -1,5 +1,15 @@
 <html>
 <head>
+  <style>
+    .hi {
+      width: 100%;
+    }
+    h1 {
+      width:100%;
+      font-size: 20%;
+      background-color: blue;
+    }
+  </style>
 <title>Python Flask Upload and display image</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />        
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -51,7 +61,7 @@
         });
     </script>
     {% endif %}
-    <form method="post" action="/" enctype="multipart/form-data">
+    <form method="post" action="/" enctype="multipart/form-data" class="hi">
         <dl>
             <p>
                 <input type="file" name="file" class="form-control" autocomplete="off" required>

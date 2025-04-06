@@ -53,18 +53,31 @@ def display_image(filename):
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
  
 
-def get_Gemini_Meals(image_path):
-    image = PIL.Image.open(image_path)
-
+def get_Gemini_Meals():
+    prompt = "You are a chef doing meal prep for a healthy resteraunt. The images will containt coupons from a local store. Your job is to create three healthy main courses from some of the items in the coupons and return the meals in the following JSON format. [{meal: Meal Name, Ingredients: {Ingredient_Names: quantities}}, {meal: Meal Name, Ingredients : {Ingredient_Names : quantities}}, {meal : Meal Name, Ingredients : {Ingredient_Names: quantities}}]. The meals are only inspired from the items in the coupons, so please write out a full list of ingredients, even if the ingredients aren't in the coupons. RESPOND ONLY WITH THE JSON"
+    content = [prompt]
+    dir_path = r"static\uploads"
+    for file in os.scandir(r"static\uploads"):
+        image = PIL.Image.open(file.path)
+        content.append(image)
+    
     client = genai.Client(api_key=os.environ.get('GEMINI_API_KEY'))
 
     response = client.models.generate_content(
         model="gemini-2.0-flash",
-        contents=["You are a chef doing meal prep for a healthy resteraunt. The image will containt coupons from a local store. Your job is to create three healthy meals from some of the items in the coupon and return the meals in the following JSON format. [{meal: Meal Name, Ingredients: {Ingredient_Names: quantities}}, {meal: Meal Name, Ingredients : {Ingredient_Names : quantities}}, {meal : Meal Name, Ingredients : {Ingredient_Names: quantities}}] but instead of writing ... finish the meals. The meals are only inspired from the items in the coupons, so please write out a full list of ingredients, even if the ingredients aren't in the coupons.", image]
+        contents=content,
     )
 
-    text = response.text
-    meals = json.loads(text.removeprefix("```json\n").removesuffix("```"))
+    text = response.text.removeprefix("```json\n").removesuffix("```")
+    meals = json.loads(text)
+
+    for filename in os.listdir(dir_path):
+        file_path = os.path.join(dir_path, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+        except Exception as e:
+            print(f"Failed to delete {file_path}. Reason: {e}")
 
     return meals
 
